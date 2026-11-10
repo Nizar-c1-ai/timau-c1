@@ -153,13 +153,13 @@ $$('#kfilter button').forEach(b=>b.onclick=()=>{$$('#kfilter button').forEach(x=
 const FORMS={
  out:{
   '4-3-3':{slots:[['TW',50,90],['RV',84,71],['IV',63,77],['IV',37,77],['LV',16,71],['DM',50,61],['ZM',68,46],['ZM',32,46],['RF',83,23],['ST',50,14],['LF',17,23]],
-   def:['Baran Bakar','Leo Ljekaj','Arvanit Dermaku','Nizar Garrab','Marko Michael Anello','Hüseyin Seker',"André D'Alessandro Altamirano Alvarez",'Deniz Yarasir','Robert Faraone','Hüseyin Can Enhas','Miran Kabakci'],
+   def:['Baran Bakar','Leo Ljekaj','Arvanit Dermaku','Nizar Garrab','Marko Michael Anello','Hüseyin Seker',"André D'alessandro Altamirano Alvarez",'Deniz Yarasir','Robert Faraone','Hüseyin Can Enhas','Miran Kabakci'],
    t:'4-3-3 · Grundordnung',x:'Das System, das ihr am meisten gespielt habt. Seker sichert vor der Abwehr ab, André und Deniz verbinden. Enhas spielt zentral für Murat, Robert und Miran kommen über die Flügel. Die Aussenverteidiger schieben nie beide gleichzeitig nach vorne.'},
   '4-1-4-1':{slots:[['TW',50,90],['RV',84,72],['IV',63,77],['IV',37,77],['LV',16,72],['DM',50,62],['RM',84,42],['ZM',63,45],['ZM',37,45],['LM',16,42],['ST',50,14]],
-   def:['Baran Bakar','Leo Ljekaj','Arvanit Dermaku','Nizar Garrab','Marko Michael Anello','Hüseyin Seker','Robert Faraone',"André D'Alessandro Altamirano Alvarez",'Deniz Yarasir','Miran Kabakci','Hüseyin Can Enhas'],
+   def:['Baran Bakar','Leo Ljekaj','Arvanit Dermaku','Nizar Garrab','Marko Michael Anello','Hüseyin Seker','Robert Faraone',"André D'alessandro Altamirano Alvarez",'Deniz Yarasir','Miran Kabakci','Hüseyin Can Enhas'],
    t:'4-1-4-1 · Gegen die Top 3',x:'Gegen den Ball zwei Viererketten mit Seker dazwischen, so bleibt das Zentrum dicht. Gut gegen Kaiseraugst, Oberdorf und Wallbach, und um eine Führung ab der 60. Minute zu halten.'},
   '4-2-3-1':{slots:[['TW',50,90],['RV',84,72],['IV',63,77],['IV',37,77],['LV',16,72],['DM',63,61],['DM',37,61],['ZOM',50,40],['RF',83,30],['LF',17,30],['ST',50,13]],
-   def:['Baran Bakar','Edson Samba Mango Baldé','Arvanit Dermaku','Nizar Garrab','Marko Michael Anello','Hüseyin Seker','Deniz Yarasir','Miran Kabakci','Robert Faraone','Hüseyin Can Enhas',"André D'Alessandro Altamirano Alvarez"],
+   def:['Baran Bakar','Edson Samba Mango Baldé','Arvanit Dermaku','Nizar Garrab','Marko Michael Anello','Hüseyin Seker','Deniz Yarasir','Miran Kabakci','Robert Faraone','Hüseyin Can Enhas',"André D'alessandro Altamirano Alvarez"],
    t:'4-2-3-1 · Doppelsechs',x:'Seker und Deniz geben Stabilität. Miran ist die Nummer 10 zwischen den Linien. André läuft als Spitze und presst früh.'},
   '4-4-2':{slots:[['TW',50,90],['RV',84,72],['IV',63,77],['IV',37,77],['LV',16,72],['RM',85,45],['ZM',62,50],['ZM',38,50],['LM',15,45],['ST',63,16],['ST',37,16]],
    def:['Baran Bakar','Leo Ljekaj','Arvanit Dermaku','Anastacio Antonio Cuenda','Marko Michael Anello','Edson Samba Mango Baldé','Hüseyin Seker','Deniz Yarasir','Miran Kabakci','Robert Faraone','Hüseyin Can Enhas'],
