@@ -4,7 +4,7 @@
 const SQUAD=[
  {n:'Baran Bakar',nr:1,l:'TOR',pos:'Tor',role:'Stammtorhüter, alle 10 Spiele gestartet'},
  {n:'Leo Ljekaj',nr:2,l:'ABW',pos:'IV rechts · RV',role:'Flexibel in der Viererkette'},
- {n:'Nizar Garrab',nr:4,l:'ABW',pos:'IV rechts/links',role:'Abwehrchef, Spielaufbau, mehrmals Captain'},
+ {n:'Nizar Garrab',nr:4,l:'ABW',pos:'IV rechts/links',posExtra:'Mittelfeld',role:'Abwehrchef, Spielaufbau, mehrmals Captain'},
  {n:'Arvanit Dermaku',nr:6,l:'ABW',pos:'RV · IV rechts',role:'Technisch stark, erfahren, Captain gegen Oberdorf'},
  {n:'Anastacio Antonio Cuenda',nr:99,l:'ABW',pos:'IV links · LV',role:'Gross, stark in der Luft, bei Standards'},
  {n:'Marko Michael Anello',nr:5,l:'ABW',pos:'LV · IV links',role:'Linke Seite, defensiv und offensiv'},
