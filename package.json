@@ -1,0 +1,7 @@
+{
+  "name": "timau-team-hub",
+  "private": true,
+  "type": "module",
+  "scripts": { "update": "node scripts/update.mjs" },
+  "dependencies": { "linkedom": "^0.18.5" }
+}

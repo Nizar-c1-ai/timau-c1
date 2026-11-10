@@ -1,0 +1,45 @@
+AS Timau C1 – Team Hub (aktualisiert sich selbst)
+=================================================
+
+SO FUNKTIONIERT ES
+Ein kleines Programm (scripts/update.mjs) liest das offizielle FVNWS-Matchcenter aus:
+Resultate, Aufstellungen, Torschützen, Tabelle, neue Testspiele und die neue Gruppe
+im Frühling. Es läuft automatisch auf GitHub (gratis) – jeden Morgen und zusätzlich
+Mittwoch-, Samstag- und Sonntagabend. Danach ist die Webseite automatisch aktuell.
+
+EINRICHTEN (einmalig, ca. 10 Minuten)
+1. Auf https://github.com ein kostenloses Konto erstellen.
+2. Oben rechts "+" -> "New repository".
+   Name: timau-c1   ·   "Public" wählen   ·   "Create repository".
+3. Auf der neuen Seite: "uploading an existing file" anklicken.
+   ALLES aus diesem Ordner hineinziehen – auch den Ordner ".github"!
+   (Mac: Im Finder Cmd+Shift+Punkt drücken, damit versteckte Ordner sichtbar werden.)
+   Unten "Commit changes" klicken.
+4. Im Repository: "Settings" -> links "Pages" -> bei "Source" "GitHub Actions" wählen.
+5. Oben "Actions" -> links "Daten aktualisieren & veröffentlichen" -> "Run workflow".
+6. Nach ca. 1–2 Minuten ist die Seite online unter:
+   https://DEIN-GITHUB-NAME.github.io/timau-c1/
+
+Ab jetzt läuft alles von selbst. Sofort aktualisieren: Actions -> Run workflow.
+
+ALS APP AUFS HANDY
+- iPhone (Safari): Link öffnen -> Teilen -> "Zum Home-Bildschirm".
+- Android (Chrome): Menü (⋮) -> "App installieren".
+
+WAS AUTOMATISCH KOMMT
+- Neue Spiele mit Resultat, Startelf, Bank, Abwesenden, Torverlauf, Karten
+- Tabelle und alle Gruppenresultate (auch die neue Frühlingsgruppe)
+- Neue Testspiele/Meisterschaftsspiele im Kalender
+- Neue Gegner bekommen automatisch ein Profil
+- Neue Spieler im Kader werden automatisch erkannt
+
+WAS VON HAND BLEIBT (Datei data.js, oder Claude fragen)
+- Spieler-Rollen/Beschreibungen, Taktik, Trainingsübungen, Gegner-Analysen
+- Hallenturniere, die nicht im Verbands-Spielplan stehen
+- Trainingszeiten
+
+WICHTIG
+- Die Seite ist öffentlich und enthält Namen von Spielern unter 18.
+  Vorher mit dem Trainer absprechen und den Link nur im Team teilen.
+- Falls unter "Actions" ein roter Fehler erscheint (z. B. weil der Verband seine
+  Seite umbaut), Screenshot an Claude schicken.

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AS Timau C1 – Team Hub</title>
+<meta name="description" content="Spiele, Kader, Aufstellung, Gegner und Training von AS Timau Basel C1">
+<meta name="theme-color" content="#05070c">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="img/icon-192.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Timau C1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div id="progress"></div>
+
+<header class="nav" id="nav">
+  <div class="wrap in">
+    <a class="logo" href="#top"><img src="img/logo.webp" alt="AS Timau Basel"><span>AS Timau C1<small>Team Hub 26/27</small></span></a>
+    <ul id="navlinks"></ul>
+    <button class="burger" id="burger" aria-label="Menü"><i></i><i></i></button>
+  </div>
+</header>
+<nav class="mmenu" id="mmenu"></nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="bg" id="heroBg"></div>
+  <div class="wrap in">
+    <div class="mono" style="color:#cfd6e3;margin-bottom:18px;opacity:0;animation:fadeUp 1s .1s cubic-bezier(.16,1,.3,1) forwards">Junioren C · 1. Stärkeklasse · Saison 2026/27</div>
+    <h1><span class="ln"><span style="--i:0">AS Timau</span></span><span class="ln"><span style="--i:1">Basel C1</span></span></h1>
+    <div class="row">
+      <div style="display:flex;gap:20px;align-items:center">
+        <img class="crest" src="img/logo.webp" alt="Wappen AS Timau Basel">
+        <p class="tagline">Ein Team, eine Saison, ein Ziel. Spiele, Kader, Aufstellungen, Gegner und Training für Spieler und Trainer.</p>
+      </div>
+      <a class="nextchip" href="#termine" id="nextchip"></a>
+    </div>
+  </div>
+  <div class="scrollcue mono">Scroll<i></i></div>
+</section>
+
+<!-- STATS -->
+<div class="wrap">
+  <div class="stats" id="stats"></div>
+</div>
+
+<!-- ANALYSE -->
+<section class="sec" id="analyse">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><div class="mono kicker rv">Herbstrunde 2026 · Gruppe 3</div><h2 class="words" data-words>Was die <b>Daten</b> sagen</h2></div>
+      <p class="rv" style="--i:2">Ausgewertet aus allen 10 offiziellen Spielberichten des FVNWS: Aufstellungen, Abwesende, jede Torminute.</p>
+    </div>
+    <div class="case rv-clip" id="case">
+      <div class="img" data-par="0.12"></div>
+      <div class="col"><span class="mono">Rankhof · Basel</span><h3>Saison&shy;analyse<br>Herbst 2026</h3><p>6. Platz mit 11 Punkten und einem Torverhältnis von 37:37. Offensiv gehört ihr zu den Besten der Gruppe, defensiv geht es um die letzten 30 Minuten.</p></div>
+      <div class="col"><span class="mono">Problem</span><p>16 von 37 Gegentoren fielen nach der 60. Minute. Gegen den Tabellenführer Kaiseraugst wurde aus einem 4:2 in der 68. Minute noch ein 4:4.</p></div>
+      <div class="col"><span class="mono">Lösung</span><p>Den festen Kern zusammenhalten, nach der 60. Minute wechseln, mit Führung im 4-1-4-1 kompakt bleiben und Kondition mit Ball trainieren.</p>
+        <div class="big"><b data-count="5">0</b><span>Spiele ohne Niederlage, seit der feste Kern spielt</span></div></div>
+    </div>
+    <div class="insights" id="insights"></div>
+  </div>
+</section>
+
+<!-- SPIELE -->
+<section class="sec" id="spiele" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><div class="mono kicker rv">Matchcenter</div><h2 class="words" data-words>Alle <b>Spiele</b></h2></div>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap" class="rv">
+        <div class="seg" id="mfilter"><button data-f="all" class="on">Alle</button><button data-f="M">Liga</button><button data-f="C">Cup</button><button data-f="T">Test</button></div>
+        <div class="car-nav"><button data-car="mcar" data-d="-1" aria-label="zurück">←</button><button data-car="mcar" data-d="1" aria-label="weiter">→</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap car-wrap"><div class="car" id="mcar"></div></div>
+  <div class="wrap"><div id="mdetail" class="panel rv"></div></div>
+  <div class="wrap grid g2" style="margin-top:16px">
+    <div class="panel rv"><div class="mono kicker" id="tabLabel">Tabelle</div><div class="scroll-x"><table id="table"></table></div></div>
+    <div class="panel rv" style="--i:1" id="chartPanel"><div class="mono kicker">Tore nach Spielminute · Liga</div><div class="mchart" id="minChart"></div>
+      <div class="pills" style="margin-top:14px"><span class="tag win">● Erzielt</span><span class="tag loss">● Kassiert</span></div></div>
+  </div>
+</section>
+
+<!-- KADER -->
+<section class="sec" id="kader" style="background:linear-gradient(180deg,var(--bg),var(--bg2))">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><div class="mono kicker rv">Saison 2026/27</div><h2 class="words" data-words>Der <b>Kader</b></h2></div>
+      <div class="seg rv" id="kfilter"><button data-f="all" class="on">Alle</button><button data-f="TOR">Tor</button><button data-f="ABW">Abwehr</button><button data-f="MF">Mittelfeld</button><button data-f="ANG">Angriff</button><button data-f="ROT">Rotation</button></div>
+    </div>
+    <div class="players" id="players"></div>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="panel rv" id="scorers"><div class="mono kicker">Torschützen · Liga + Cup</div><div id="topScorers"></div><p class="small muted" style="margin-top:10px">Murat Savut (10 Tore) spielt nicht mehr bei C1 a.</p></div>
+      <div class="panel rv" style="--i:1"><div class="mono kicker">Gut zu wissen</div>
+        <ul class="dots small">
+          <li>Die Position Mittelstürmer ist nach Murats Abgang offen. Die Varianten findest du unter <a href="#aufstellung">Aufstellung</a>.</li>
+          <li>Diese Spieler waren am Saisonanfang dabei und tauchen seit September nicht mehr auf: Kagan, Tutumlu, Gebreyesus, Inekci, Michaele, Vornicel, Aytekin, Metreveli, Mustafi. Wahrscheinlich spielen sie bei C1 b, das klärt der Trainer.</li>
+          <li>Der Captain wechselt: Kagan, Deniz, Arvanit, Nizar, Miran, Seker und André hatten die Binde schon.</li>
+        </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- AUFSTELLUNG -->
+<section class="sec" id="aufstellung">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><div class="mono kicker rv">Lineup-Builder</div><h2 class="words" data-words>Die <b>Aufstellung</b></h2><p class="rv">Wähle Formation und Spieler. Gespeichert wird nur in deinem Browser. Die Vorschläge sind keine Trainerentscheidung.</p></div>
+      <div class="seg rv" id="modeSeg"><button data-m="out" class="on">Draussen 11v11</button><button data-m="hall">Halle 4+1</button></div>
+    </div>
+    <div class="md">
+      <div class="rv">
+        <div class="seg" id="formSeg" style="margin-bottom:14px"></div>
+        <div class="pitch" id="lpitch"></div>
+        <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;align-items:center"><button class="btn ghost" id="lreset">Vorschlag laden</button><button class="btn" id="lcopy">Kopieren <span class="ar">↗</span></button><span class="small muted" id="lmsg"></span></div>
+      </div>
+      <div class="grid" style="align-content:start">
+        <div class="panel rv"><div class="mono kicker" id="fKick">System</div><h3 id="fTitle"></h3><p class="small" id="fText" style="color:#cfd6e3"></p></div>
+        <div class="panel rv"><div class="mono kicker">Ersatzbank</div><div class="pills" id="lbench"></div></div>
+        <div class="panel rv"><div class="mono kicker">Mittelstürmer nach Murat</div>
+          <ul class="dots small"><li><b>Enhas zentral:</b> Bester Torschütze im Kader (7 Tore), hat schon Sturm gespielt. Miran kommt links.</li><li><b>Robert zentral:</b> Im Cup als Sturmspitze 3 Tore.</li><li><b>Lamik als Joker:</b> 2 Tore als Einwechselspieler.</li></ul></div>
+        <div class="panel rv"><div class="mono kicker">Innenverteidigung</div>
+          <p class="small" style="color:#cfd6e3">Nizar ist mit 7 Starts gesetzt. <b>Arvanit</b> ist technisch stark und erfahren, war gegen Oberdorf Captain und spielt RV oder IV rechts. <b>Anastacio</b> ist gross und kopfballstark (5 Starts) und gut gegen hohe Bälle und bei Standards. Leo kann IV und RV spielen.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GEGNER -->
+<section class="sec" id="gegner" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><div class="mono kicker rv">Scouting · Gruppe 3</div><h2 class="words" data-words>Die <b>Gegner</b></h2><p class="rv">Alle Resultate, das direkte Duell und wer gegen uns getroffen hat. Es stehen nur Fakten aus den Spielberichten drin.</p></div>
+      <div class="car-nav rv"><button data-car="ocar" data-d="-1" aria-label="zurück">←</button><button data-car="ocar" data-d="1" aria-label="weiter">→</button></div>
+    </div>
+  </div>
+  <div class="wrap car-wrap"><div class="car" id="ocar"></div></div>
+</section>
+
+<!-- TERMINE -->
+<section class="sec" id="termine">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><div class="mono kicker rv">Kalender</div><h2 class="words" data-words>Nächste <b>Termine</b></h2></div>
+      <p class="rv">Hallenturniere sind noch nicht offiziell bestätigt. Am 28.11. kollidiert das Trainingsspiel (15:00) eventuell mit dem Turnier in Reinach AG (18:00).</p>
+    </div>
+    <div class="events" id="events"></div>
+    <div class="panel rv" style="margin-top:16px"><div class="mono kicker">Turnier-Checkliste</div>
+      <div class="grid g3 small" style="color:#cfd6e3"><div>✓ Zu- und Absagen bis Mittwoch<br>✓ Zwei feste 4er-Blöcke plus Torwart</div><div>✓ Hallenschuhe, Schienbeinschoner, 2 Trikots<br>✓ Reglement lesen: Spieldauer, Rückpass, Bande</div><div>✓ Treffpunkt und Fahrt organisieren<br>✓ Wasser und Snacks für den ganzen Tag</div></div></div>
+  </div>
+</section>
+
+<!-- TRAINING -->
+<section class="sec" id="training" style="background:linear-gradient(180deg,var(--bg),var(--bg2))">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><div class="mono kicker rv">Trainingszentrale</div><h2 class="words" data-words>Besser <b>werden</b></h2></div>
+      <div class="seg rv" id="dSeg"><button data-d="solo" class="on">Solo</button><button data-d="duo">Duo</button><button data-d="trio">Trio</button><button data-d="squad">Squad</button><button data-d="team">Team</button><button data-d="halle">Halle</button></div>
+    </div>
+    <div class="callout rv" id="dIntro"></div>
+    <div class="grid g3" id="dgrid"></div>
+    <div class="panel rv" style="margin-top:16px">
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline"><div class="mono kicker">Wochenplan</div><span class="small muted">Trainingszeiten eintragen, sie werden lokal gespeichert.</span></div>
+      <div class="week" id="week"></div>
+    </div>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="panel rv"><div class="mono kicker">Warum jedes Training zählt</div><ul class="dots small"><li>Mit dem festen Kern habt ihr 5 Spiele nicht verloren. Ohne ihn kamen 0:7, 0:10 und 4:6.</li><li>Wer fehlt, kennt die Abläufe nicht: Verschieben, Pressing, Standards.</li><li>16 Gegentore nach der 60. Minute: Kondition holt man im Training.</li><li>Der Trainer stellt auf, wen er im Training sieht.</li></ul></div>
+      <div class="panel rv" style="--i:1"><div class="mono kicker">20-Minuten-Heimprogramm</div><ol class="small" style="padding-left:18px;color:#cfd6e3"><li>3 Min lockeres Einlaufen mit Ball</li><li>5 Min Ball Mastery (beide Füsse)</li><li>5 Min Wandpässe: 1 Kontakt, dann 2 Kontakte offen drehen</li><li>5 Min Slalom und Abschluss oder Jonglieren</li><li>2 Min Dehnen und eine Sache notieren, die besser wurde</li></ol></div>
+    </div>
+  </div>
+</section>
+
+<!-- TAKTIK -->
+<section class="sec" id="taktik">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><div class="mono kicker rv">Spielidee</div><h2 class="words" data-words>Die <b>Taktik</b></h2></div>
+      <div class="seg rv" id="tSeg"><button data-t="out" class="on">Draussen</button><button data-t="hall">Halle</button><button data-t="lessons">Lehren</button></div>
+    </div>
+    <div id="tcontent" class="rv"></div>
+  </div>
+</section>
+
+<!-- RANKHOF -->
+<section class="sec" id="rankhof" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><div class="mono kicker rv">Unsere Heimat</div><h2 class="words" data-words>Sportanlage <b>Rankhof</b></h2></div>
+      <p class="rv">Grenzacherstrasse 351, 4058 Basel. Hier spielt AS Timau seine Heimspiele.</p>
+    </div>
+    <div class="venue rv-clip"><img src="img/rankhof-aerial.webp" alt="Rankhof von oben" data-par="0.1" loading="lazy">
+      <div class="cap"><div><span class="mono" style="color:#cfd6e3">Basel · Kleinbasel</span><h3>Rankhof</h3></div><a class="btn" href="https://matchcenter.fvnws.ch/default.aspx?v=477&oid=8&lng=1" target="_blank" rel="noopener">Matchcenter <span class="ar">↗</span></a></div></div>
+    <div class="facts rv">
+      <div><b data-count="8">0</b><span class="mono">Spielfelder</span></div>
+      <div><b>100×64</b><span class="mono">Hauptplatz · Kunstrasen FIFA Quality</span></div>
+      <div><b data-count="3000">0</b><span class="mono">Plätze (1500 Sitz / 1500 Steh)</span></div>
+      <div><b>2025</b><span class="mono">Hauptplatz &amp; Licht neu</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="marquee"><div class="tr" id="mq"></div></div>
+  <div class="sec">
+    <div class="wrap">
+      <div class="speech rv-clip"><div class="img" data-par="0.1"></div><div>
+        <div class="mono kicker" style="color:var(--blue3)">Kabinenansprache</div>
+        <p><b>Jungs, schaut euch um.</b> Wir sind die Mannschaft, die dem Tabellenführer Punkte abgenommen hat. Wir haben 14 Tore in einem Spiel geschossen.</p>
+        <p>Heute geht es nicht um 70 gute Minuten. Es geht um 90. Wenn wir führen, bleiben wir ruhig. Wir laufen füreinander, bis der Schiri pfeift.</p>
+        <p><b>Wir sind AS Timau. Wir spielen 90 Minuten als Team.</b></p>
+      </div></div>
+      <div class="grid g3" style="margin-top:16px">
+        <div class="panel rv"><div class="mono kicker">Unsere Regeln</div><ul class="dots small"><li>10 Min vor Trainingsbeginn umgezogen</li><li>Abmelden spätestens am Vortag</li><li>Respekt vor Mitspielern, Trainern, Gegnern und Schiris</li><li>Nach Fehlern nicht meckern, sondern weiterlaufen</li><li>Das Team kommt vor der eigenen Statistik</li></ul></div>
+        <div class="panel rv" style="--i:1"><div class="mono kicker">Im Spiel</div><ul class="dots small"><li>Reden: „Hintermann!“, „Zeit!“, „Rück!“</li><li>Nach Ballverlust 5 Sekunden Gegenpressing</li><li>In Führung: Ruhe und Ballbesitz</li><li>Nach einem Gegentor: weiter, Kopf hoch</li></ul></div>
+        <div class="panel rv" style="--i:2"><div class="mono kicker">Team-Motto</div><p id="quote" style="font-family:var(--disp);font-size:24px;line-height:1.3;color:#fff;min-height:96px"></p><button class="btn ghost" id="nextQuote" style="margin-top:10px">Nächstes →</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap in">
+    <div><img src="img/logo.webp" alt="AS Timau Basel"><p class="small muted" style="margin-top:14px;max-width:340px">AS Timau Basel · Associazione Sportiva · gegründet 1965. Junioren C 1. Stärkeklasse a.</p></div>
+    <div><h4>Verein</h4><ul><li>Vereinsnr. 3214</li><li>Region FVNWS</li><li>12 Teams</li><li>Postfach, 4002 Basel</li></ul></div>
+    <div><h4>Daten</h4><ul><li><a href="https://matchcenter.fvnws.ch/default.aspx?v=477&oid=8&lng=1" target="_blank" rel="noopener">FVNWS Matchcenter ↗</a></li><li id="stand">Stand: 10.11.2026</li><li>Trainer: Ali Baki, Salman Yarasir</li></ul></div>
+  </div>
+</footer>
+
+<div class="drawer" id="drawer"><div class="bk"></div><div class="pnl"><button class="x" aria-label="Schliessen">×</button><div id="dcontent"></div></div></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>try{if('serviceWorker' in navigator&&location.protocol==='https:'&&window.top===window.self){navigator.serviceWorker.register('sw.js').catch(()=>{})}}catch(e){}</script>
+</body>
+</html>

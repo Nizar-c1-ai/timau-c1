@@ -1,0 +1,53 @@
+name: Daten aktualisieren & veröffentlichen
+
+on:
+  schedule:
+    - cron: '17 5 * * *'     # jeden Tag ca. 06:17 / 07:17 Schweizer Zeit
+    - cron: '17 19 * * 0,3,6' # zusätzlich Mi, Sa, So Abend (nach den Spielen)
+  workflow_dispatch:          # manuell: Actions -> "Run workflow"
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-audit --no-fund
+      - name: FVNWS-Matchcenter auslesen
+        run: node scripts/update.mjs
+      - name: Änderungen speichern
+        run: |
+          git config user.name "timau-bot"
+          git config user.email "timau-bot@users.noreply.github.com"
+          git add live.json
+          git diff --cached --quiet || (git commit -m "Daten aktualisiert $(date +'%d.%m.%Y %H:%M')" && git push)
+      - name: Webseite vorbereiten
+        run: |
+          mkdir -p _site
+          cp -r index.html app.css app.js data.js live.json sw.js manifest.webmanifest img _site/
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: update
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
