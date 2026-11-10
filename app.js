@@ -14,7 +14,7 @@ const NAV=[['spiele','Spiele'],['kader','Kader'],['aufstellung','Aufstellung'],[
 const EXCLUDE=['Murat Savut','Metehan Kagan','Furkan Tutumlu','Nayher Gebreyesus','Aras Inekci','Alexander Michaele','Alexander Vornicel','Yavuz Selim Aytekin','Nikoloz Metreveli','Bljin Mustafi'];
 const norm=s=>(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s+/g,' ').trim();
 const findP=n=>SQUAD.find(p=>norm(p.n)===norm(n));
-let LIVE=null;
+let LIVE=null;let STAFF=[];
 const posFull=pk=>PK[pk]||pk;
 const ABR_FULL={'Tor':'TW','Verteidigung rechtsaussen':'RV','Verteidigung rechts':'RV','Verteidigung linksaussen':'LV','Verteidigung links':'LV','Innenverteidigung rechts':'IV','Innenverteidigung links':'IV','Verteidigung mitte':'IV','Libero':'LIB','Mittelfeld defensiv':'DM','Mittelfeld defensiv rechts':'DM','Mittelfeld defensiv links':'DM','Mittelfeld':'ZM','Mittelfeld rechtsinnen':'ZM','Mittelfeld linksinnen':'ZM','Mittelfeld rechtsaussen':'RM','Mittelfeld linksaussen':'LM','Mittelfeld links':'LM','Mittelfeld rechts':'RM','Flügel rechts':'RF','Flügel links':'LF','Flügel':'F','Mittelsturm':'ST','Sturmspitze':'ST','Sturmspitze rechts':'ST','Sturmspitze links':'ST','Hängende Spitze':'HS'};
 const abbr=pk=>ABBR[pk]||ABR_FULL[posFull(pk)]||'';
@@ -43,9 +43,28 @@ async function loadLive(){
       const sc={};M.filter(m=>m.o===t[0]).forEach(m=>m.E.filter(e=>e[1]==='o'&&(e[2]==='g'||e[2]==='p')).forEach(e=>sc[e[3]]=(sc[e[3]]||0)+1));
       OPP[t[0]]={th:rank<=2?5:rank<=3?4:rank<=5?3:rank<=7?2:1,coach:'–',keys:Object.keys(sc).length?Object.entries(sc).sort((a,b)=>b[1]-a[1]).map(([n,c])=>`${n}: ${c} Tor${c>1?'e':''} gegen uns`):['Noch kein direktes Duell'],
         how:`${rank}. Platz mit ${t[7]} Punkten, ${t[5]} Tore (${t[2]}S ${t[3]}U ${t[4]}N).`,plan:'Automatisch erstelltes Profil, der Trainer ergänzt die Details.'}});
-    // players that appear in recent official lineups but are not in the squad list
+    // Kader vom Verband (club.football.ch) – bestimmt, wer im Team ist
+    if(L.kader&&L.kader.players&&L.kader.players.length){
+      const tok=n=>norm(n).split(' ').sort().join(' ');
+      const OUT=['Murat Savut']; // nicht mehr im Team, obwohl noch auf der Verbandsliste
+      const allNames=[];M.forEach(m=>{m.L.forEach(x=>allNames.push(x[1]));(m.B||[]).forEach(n=>allNames.push(n))});
+      const G={'Tor':'TOR','Verteidigung':'ABW','Mittelfeld':'MF','Sturm':'ANG'};
+      const ns=[];
+      L.kader.players.forEach(k=>{if(OUT.some(o=>tok(o)===tok(k.name)))return;
+        const known=SQUAD.find(p=>tok(p.n)===tok(k.name));
+        if(known){known._grp=k.group;if(k.group==='Tor')known.l='TOR';ns.push(known);return}
+        const mb=allNames.find(n=>tok(n)===tok(k.name));
+        const parts=k.name.split(' ');const guess=parts.length===2?parts[1]+' '+parts[0]:k.name;
+        ns.push({n:mb||guess,nr:k.nr||'–',l:G[k.group]||'ROT',pos:'offen',_grp:k.group,role:'Im Kader laut Verband'});
+      });
+      ns.sort((a,b)=>SQUAD.indexOf(a)<0?1:SQUAD.indexOf(b)<0?-1:SQUAD.indexOf(a)-SQUAD.indexOf(b));
+      SQUAD.splice(0,SQUAD.length,...ns);
+      STAFF=L.kader.staff||[];
+    } else {
+    // ohne Kaderliste: Spieler aus den letzten Matchblättern ergänzen
     M.filter(m=>m.k!=='T').slice(-3).forEach(m=>{m.L.forEach(([nr,n,pk])=>{if(!findP(n)&&!EXCLUDE.some(x=>norm(x)===norm(n)))SQUAD.push({n,nr,l:posFull(pk)==='Tor'?'TOR':'ROT',pos:posFull(pk),role:'Neu im Kader (automatisch erkannt)'})});
       (m.B||[]).forEach(n=>{if(!findP(n)&&!EXCLUDE.some(x=>norm(x)===norm(n)))SQUAD.push({n,nr:'–',l:'ROT',pos:'offen',role:'Neu im Kader (automatisch erkannt)'})})});
+    }
   }catch(e){}
 }
 const isTimauName=s=>/Timau/i.test(s);
@@ -64,7 +83,11 @@ const league=M.filter(m=>m.k==='M');
 // Positionen automatisch aus den offiziellen Matchblättern
 const PLBL=f=>({'Tor':'Tor','Innenverteidigung rechts':'IV','Innenverteidigung links':'IV','Verteidigung mitte':'IV','Libero':'Libero','Verteidigung rechtsaussen':'RV','Verteidigung rechts':'RV','Verteidigung linksaussen':'LV','Verteidigung links':'LV','Mittelfeld defensiv':'DM','Mittelfeld defensiv rechts':'DM','Mittelfeld defensiv links':'DM','Mittelfeld':'ZM','Mittelfeld rechtsinnen':'ZM','Mittelfeld linksinnen':'ZM','Mittelfeld rechtsaussen':'RM','Mittelfeld rechts':'RM','Mittelfeld linksaussen':'LM','Mittelfeld links':'LM','Flügel rechts':'Flügel rechts','Flügel links':'Flügel links','Mittelsturm':'Sturm','Sturmspitze':'Sturm','Sturmspitze rechts':'Sturm','Sturmspitze links':'Sturm','Hängende Spitze':'Hängende Spitze'})[f]||f;
 (function(){const cnt={};M.filter(m=>m.k!=='T').forEach(m=>m.L.forEach(([nr,n,pk])=>{const p=findP(n);if(!p)return;const l=PLBL(posFull(pk));(cnt[p.n]=cnt[p.n]||{})[l]=(cnt[p.n][l]||0)+1;p._nr=nr}));
-  SQUAD.forEach(p=>{const c=cnt[p.n];if(!c)return;p.pos=Object.entries(c).sort((a,b)=>b[1]-a[1]).slice(0,2).map(x=>x[0]).join(' · ');if(p.nr==='–'&&p._nr)p.nr=p._nr})})();
+  SQUAD.forEach(p=>{const c=cnt[p.n];if(!c){if(p.pos==='offen'&&p._grp&&p._grp!=='-')p.pos=({Verteidigung:'Abwehr'})[p._grp]||p._grp;return}p.pos=Object.entries(c).sort((a,b)=>b[1]-a[1]).slice(0,2).map(x=>x[0]).join(' · ');if(p.nr==='–'&&p._nr)p.nr=p._nr})})();
+if(STAFF.length){const fl=n=>{const p=n.split(' ');return p.length>1?p.slice(1).join(' ')+' '+p[0]:n};
+  $('#staff').innerHTML=STAFF.map(s=>`<span class="tag blue">${esc(s.role.replace('/in',''))}: ${esc(fl(s.name))}</span>`).join(' ');
+  const tr=STAFF.filter(s=>/Trainer|Coach/.test(s.role)).map(s=>fl(s.name));const fe=document.getElementById('ftrainer');if(fe)fe.textContent='Trainer: '+tr.join(', ');
+  if(LIVE.kader.updated)$('#kaderStand').textContent='Kaderliste vom Verband, Stand '+new Date(LIVE.kader.updated).toLocaleDateString('de-CH')+'.'}
 if(LIVE){const d=new Date(LIVE.updated);$('#stand').textContent='Automatisch aktualisiert: '+d.toLocaleDateString('de-CH')+' '+d.toLocaleTimeString('de-CH',{hour:'2-digit',minute:'2-digit'});if(LIVE.group)$('#tabLabel').textContent='Tabelle · '+LIVE.group}
 
 /* ---------- nav ---------- */

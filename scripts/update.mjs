@@ -40,11 +40,13 @@ async function fetchDoc(url) {
 }
 
 const data = await F.scrape(fetchDoc, {});
+try { const k = await F.scrapeKader(fetchDoc, { team: data.team }); if (k) data.kader = k; } catch (e) { console.warn('Kader:', e.message); }
+if (!data.kader && existsSync('live.json')) { const o = JSON.parse(readFileSync('live.json', 'utf8')); if (o.kader) data.kader = o.kader; }
 if (!data.table.length || !data.matches.length) {
   console.error('Keine Daten gefunden – live.json bleibt unverändert.', data.log);
   process.exit(0);
 }
-const strip = d => JSON.stringify({ ...d, updated: null, log: null });
+const strip = d => JSON.stringify({ ...d, updated: null, log: null, kader: d.kader ? { ...d.kader, updated: null } : null });
 const old = existsSync('live.json') ? JSON.parse(readFileSync('live.json', 'utf8')) : null;
 if (old && strip(old) === strip(data)) { console.log('Keine Änderungen.'); process.exit(0); }
 writeFileSync('live.json', JSON.stringify(data));

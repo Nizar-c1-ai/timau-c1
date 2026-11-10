@@ -141,6 +141,26 @@
     };
   }
 
+  /* ---------- Kader (club.football.ch) ---------- */
+  function parseKader(doc) {
+    const players = [], staff = []; let group = '';
+    doc.querySelectorAll('h3.right-line, .thumbnail').forEach(e => {
+      if (e.matches('h3')) { group = clean(e.textContent); return; }
+      const h = e.querySelector('.caption h4'); if (!h) return;
+      const name = clean(h.textContent);
+      const nrEl = e.querySelector('.svgRueckennummer');
+      const nr = nrEl ? clean(nrEl.textContent) : '';
+      if (/Trainer/i.test(group)) staff.push({ name, role: clean(e.textContent).replace(name, '').trim() });
+      else players.push({ name, nr: nr === '' ? null : +nr, group });
+    });
+    return { players, staff };
+  }
+  const kaderUrl = cfg => `https://club.football.ch/de/club/teams/team/kader/&v=${cfg.club || 477}&t=${cfg.team || 75396}`;
+  async function scrapeKader(fetchDoc, cfg) {
+    const k = parseKader(await fetchDoc(kaderUrl(cfg || {})));
+    return k.players.length ? Object.assign(k, { updated: new Date().toISOString() }) : null;
+  }
+
   /* ---------- main ---------- */
   async function scrape(fetchDoc, cfg) {
     cfg = Object.assign({ club: 477, team: 75396, teamName: 'Junioren C 1. Stärkeklasse a' }, cfg || {});
@@ -177,6 +197,6 @@
     return { updated: new Date().toISOString(), team, ls, sg, group: table ? table.label : '', table: table ? table.rows : [], results, matches, upcoming, log };
   }
 
-  const api = { scrape, parseReport, parseSchedule, parseTable, toMatch };
+  const api = { scrape, scrapeKader, parseKader, kaderUrl, parseReport, parseSchedule, parseTable, toMatch };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.FVNWS = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this);
