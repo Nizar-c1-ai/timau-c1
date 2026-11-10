@@ -89,8 +89,11 @@ const M=[
 const UP=[
  {d:'2026-11-14',t:'15:00',what:'Trainingsspiel',o:'FC Amicitia Riehen a',where:'Heimspiel (Spielnr. 714828)',tag:'blue'},
  {d:'2026-11-28',t:'15:00',what:'Trainingsspiel',o:'FC Telegraph BS 2',where:'Heimspiel (Spielnr. 714346)',tag:'blue'},
- {d:'2026-11-28',t:'18:00',what:'Hallenturnier (nicht bestätigt)',o:'FC Menzo Reinach',where:'Turnhalle Pfrundmatt, Reinach AG',tag:'amber'},
- {d:'2026-12-05',t:'',what:'Weihnachtsturnier (nicht bestätigt)',o:'FC Reinach BL',where:'Reinach BL',tag:'amber'}
+ {d:'2026-12-05',t:'',what:'Weihnachtsturnier · unsicher, vielleicht',o:'FC Reinach BL',where:'Reinach BL',tag:'amber'}
+];
+// wiederkehrendes Training (wird automatisch als nächste Termine angezeigt)
+const TRAININGS=[
+ {wd:4,from:'2026-11-19',t:'',what:'Hallentraining',o:'Hallentraining',where:'Jeden Donnerstag · Zeit folgt'}
 ];
 const TABLE=[
  ['FC Kaiseraugst',8,6,1,1,'58:27',31,19],['FC Oberdorf',8,6,0,2,'58:17',41,18],['FC Wallbach-Zeiningen',8,6,0,2,'38:20',18,18],

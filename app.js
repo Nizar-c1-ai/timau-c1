@@ -61,6 +61,10 @@ M.filter(m=>m.k!=='T').forEach(m=>{
   m.E.filter(e=>e[1]==='t'&&(e[2]==='g'||e[2]==='p')).forEach(e=>{const s=get(e[3]);if(s)s.g++});
 });
 const league=M.filter(m=>m.k==='M');
+// Positionen automatisch aus den offiziellen Matchblättern
+const PLBL=f=>({'Tor':'Tor','Innenverteidigung rechts':'IV','Innenverteidigung links':'IV','Verteidigung mitte':'IV','Libero':'Libero','Verteidigung rechtsaussen':'RV','Verteidigung rechts':'RV','Verteidigung linksaussen':'LV','Verteidigung links':'LV','Mittelfeld defensiv':'DM','Mittelfeld defensiv rechts':'DM','Mittelfeld defensiv links':'DM','Mittelfeld':'ZM','Mittelfeld rechtsinnen':'ZM','Mittelfeld linksinnen':'ZM','Mittelfeld rechtsaussen':'RM','Mittelfeld rechts':'RM','Mittelfeld linksaussen':'LM','Mittelfeld links':'LM','Flügel rechts':'Flügel rechts','Flügel links':'Flügel links','Mittelsturm':'Sturm','Sturmspitze':'Sturm','Sturmspitze rechts':'Sturm','Sturmspitze links':'Sturm','Hängende Spitze':'Hängende Spitze'})[f]||f;
+(function(){const cnt={};M.filter(m=>m.k!=='T').forEach(m=>m.L.forEach(([nr,n,pk])=>{const p=findP(n);if(!p)return;const l=PLBL(posFull(pk));(cnt[p.n]=cnt[p.n]||{})[l]=(cnt[p.n][l]||0)+1;p._nr=nr}));
+  SQUAD.forEach(p=>{const c=cnt[p.n];if(!c)return;p.pos=Object.entries(c).sort((a,b)=>b[1]-a[1]).slice(0,2).map(x=>x[0]).join(' · ');if(p.nr==='–'&&p._nr)p.nr=p._nr})})();
 if(LIVE){const d=new Date(LIVE.updated);$('#stand').textContent='Automatisch aktualisiert: '+d.toLocaleDateString('de-CH')+' '+d.toLocaleTimeString('de-CH',{hour:'2-digit',minute:'2-digit'});if(LIVE.group)$('#tabLabel').textContent='Tabelle · '+LIVE.group}
 
 /* ---------- nav ---------- */
@@ -71,7 +75,7 @@ $$('#mmenu a').forEach(a=>a.onclick=()=>document.body.classList.remove('menu-ope
 
 /* ---------- hero chip + stats ---------- */
 (function(){
-  const u=UP[0]||{d:new Date().toISOString().slice(0,10),t:'',o:'Noch kein Termin',what:'Spielplan folgt'},dt=new Date(u.d+'T12:00');
+  const u=UP.find(x=>x.tag!=='amber')||{d:new Date().toISOString().slice(0,10),t:'',o:'Noch kein Termin',what:'Spielplan folgt'},dt=new Date(u.d+'T12:00');
   $('#nextchip').innerHTML=`<div class="d"><b>${dt.getDate()}</b><span>${dt.toLocaleDateString('de-CH',{month:'short'}).toUpperCase()}</span></div><div><span class="mono">Nächstes Spiel · ${u.t}</span><strong>vs ${esc(u.o)}</strong><span class="small muted">${u.what}${/Heim/.test(u.where||'')?' · Rankhof':''}</span></div>`;
   const me=TABLE.find(t=>isTimauName(t[0]))||['',0,0,0,0,'0:0',0,0];const rank=TABLE.indexOf(me)+1;
   const scorers=new Set();league.forEach(m=>m.E.filter(e=>e[1]==='t'&&(e[2]==='g'||e[2]==='p')).forEach(e=>scorers.add(e[3])));
@@ -230,9 +234,17 @@ addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer()});
 /* ---------- events ---------- */
 (function(){
   const today=new Date(new Date().toDateString());
-  $('#events').innerHTML=UP.map((u,i)=>{const dt=new Date(u.d+'T12:00'),days=Math.round((dt-today)/864e5);
-    return `<article class="ev rv" style="--i:${i}"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div class="dt">${dt.getDate()}<span class="mono" style="display:block;margin-top:6px">${dt.toLocaleDateString('de-CH',{weekday:'short',month:'long'})}${u.t?' · '+u.t:''}</span></div><span class="tag ${u.tag==='amber'?'amber':'blue'}">in ${days} T.</span></div>
-      <h4>${esc(u.o)}</h4><span class="small muted">${u.what}<br>${esc(u.where)}</span></article>`}).join('');
+  const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  const tr=[];(typeof TRAININGS!=='undefined'?TRAININGS:[]).forEach(T=>{let d=new Date(Math.max(today,new Date(T.from+'T00:00')));
+    while(d.getDay()!==T.wd)d.setDate(d.getDate()+1);for(let k=0;k<2;k++){tr.push({d:iso(d),t:T.t,what:T.what,o:T.o,where:T.where,tag:'win'});d.setDate(d.getDate()+7)}});
+  const sure=[...UP.filter(u=>u.tag!=='amber'),...tr].sort((a,b)=>(a.d+(a.t||'')).localeCompare(b.d+(b.t||'')));
+  const maybe=UP.filter(u=>u.tag==='amber');
+  const list=[...sure,...maybe];
+  $('#events').innerHTML=list.map((u,i)=>{const dt=new Date(u.d+'T12:00'),days=Math.round((dt-today)/864e5);
+    const lbl=dt.toLocaleDateString('de-CH',{weekday:'short'}).replace('.','')+' · '+dt.toLocaleDateString('de-CH',{month:'long'})+(u.t?' · '+u.t:'');
+    const cls=u.tag==='amber'?'amber':u.tag==='win'?'win':'blue';
+    return `<article class="ev rv" style="--i:${i%4}${u.tag==='amber'?';opacity:.75':''}"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px"><div class="dt">${dt.getDate()}<span class="mono" style="display:block;margin-top:6px">${lbl}</span></div><span class="tag ${cls}">${days<=0?'heute':'in '+days+' T.'}</span></div>
+      <h4>${esc(u.o)}</h4><span class="small muted">${u.what===u.o?'':u.what+'<br>'}${esc(u.where)}</span></article>`}).join('');
 })();
 
 /* ---------- training ---------- */
@@ -244,7 +256,7 @@ function renderDrills(){
 }
 $$('#dSeg button').forEach(b=>b.onclick=()=>{$$('#dSeg button').forEach(x=>x.classList.remove('on'));b.classList.add('on');dSel=b.dataset.d;renderDrills()});
 (function(){const days=['Mo','Di','Mi','Do','Fr','Sa','So'];const w=store.get('week',{});
-  $('#week').innerHTML=days.map(d=>`<div class="d"><span class="mono">${d}</span><textarea data-d="${d}" placeholder="z. B. 18:00 Rankhof">${esc(w[d]||'')}</textarea></div>`).join('');
+  $('#week').innerHTML=days.map(d=>`<div class="d"><span class="mono">${d}</span><textarea data-d="${d}" placeholder="z. B. 18:00 Rankhof">${esc(w[d]!==undefined?w[d]:(d==='Do'?'Hallentraining (ab 19.11.)':''))}</textarea></div>`).join('');
   $$('#week textarea').forEach(t=>t.oninput=()=>{const w=store.get('week',{});w[t.dataset.d]=t.value;store.set('week',w)});})();
 
 /* ---------- taktik ---------- */
