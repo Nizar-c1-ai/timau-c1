@@ -27,6 +27,7 @@ jobs:
           node-version: 20
       - run: npm install --no-audit --no-fund
       - name: FVNWS-Matchcenter auslesen
+        continue-on-error: true   # bei einem Fehler wird trotzdem mit den letzten Daten veröffentlicht
         run: node scripts/update.mjs
       - name: Änderungen speichern
         run: |

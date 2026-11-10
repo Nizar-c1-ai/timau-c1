@@ -4,7 +4,7 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { parseHTML } from 'linkedom';
 import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
-const F = require('./fvnws.js');
+const F = require('./fvnws.cjs');
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126 Safari/537.36';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
