@@ -71,6 +71,7 @@ const isTimauName=s=>/Timau/i.test(s);
 
 async function boot(){
 await loadLive();
+anonymize();
 /* ---------- stats per player ---------- */
 const ST={};SQUAD.forEach(p=>ST[p.n]={st:0,bench:0,g:0,cap:0});
 M.filter(m=>m.k!=='T').forEach(m=>{
@@ -370,4 +371,26 @@ boot();
   TABS.forEach(([k])=>{const s=document.getElementById(k);if(s)tio.observe(s)});
   // ganz oben (Hero) ausblenden, damit die Startseite frei bleibt
   const hero=$('#top');if(hero)new IntersectionObserver(([e])=>bar.classList.toggle('hide',e.intersectionRatio>.6),{threshold:[0,.6,1]}).observe(hero);
+})();
+
+/* ===================================================================
+   Datenschutz: Namen auf Wunsch entfernen (Liste HIDE in data.js)
+   =================================================================== */
+function anonymize(){
+  if(typeof HIDE==='undefined'||!HIDE.length)return;
+  const pats=[];HIDE.forEach(n=>{const p=n.trim().split(/\s+/);const v=[p.join(' ')];if(p.length>1){v.push(p.slice(1).join(' ')+' '+p[0]);v.push(p[p.length-1]+' '+p.slice(0,-1).join(' '))}
+    v.forEach(x=>pats.push(new RegExp(x.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi')))});
+  const fix=s=>pats.reduce((a,r)=>a.replace(r,'Spieler (anonym)'),s);
+  const walk=o=>{if(Array.isArray(o)){for(let i=0;i<o.length;i++)typeof o[i]==='string'?o[i]=fix(o[i]):o[i]&&typeof o[i]==='object'&&walk(o[i])}
+    else if(o&&typeof o==='object')for(const k in o)typeof o[k]==='string'?o[k]=fix(o[k]):o[k]&&typeof o[k]==='object'&&walk(o[k])};
+  [SQUAD,M,typeof OPP!=='undefined'?OPP:null,LIVE,STAFF].forEach(x=>x&&walk(x));
+  for(let i=SQUAD.length-1;i>=0;i--)if(SQUAD[i].n==='Spieler (anonym)')SQUAD.splice(i,1);
+  if(LIVE&&LIVE.kader&&LIVE.kader.players)LIVE.kader.players=LIVE.kader.players.filter(p=>p.name!=='Spieler (anonym)');
+}
+/* Barrierefreiheit: klickbare Karten auch mit Tastatur (Tab + Enter/Leertaste) */
+(function(){
+  const SEL='.mcard,[data-opp]:not(button):not(a)';
+  const mark=()=>document.querySelectorAll(SEL).forEach(el=>{if(!el.hasAttribute('tabindex')){el.tabIndex=0;el.setAttribute('role','button')}});
+  mark();new MutationObserver(mark).observe(document.body,{childList:true,subtree:true});
+  document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches(SEL)){e.preventDefault();e.target.click()}});
 })();

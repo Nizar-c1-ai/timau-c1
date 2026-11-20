@@ -38,7 +38,7 @@ jobs:
       - name: Webseite vorbereiten
         run: |
           mkdir -p _site
-          cp -r index.html app.css app.js data.js live.json sw.js manifest.webmanifest img _site/
+          cp -r index.html datenschutz.html app.css fonts.css fonts app.js data.js live.json sw.js manifest.webmanifest img _site/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
