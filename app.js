@@ -328,3 +328,46 @@ NAV.forEach(([k])=>{const s=document.getElementById(k);if(s)secIO.observe(s)});
 mSel=M.length?M[M.length-1].id:0;renderMatches();renderDetail(false);renderKader('all');renderLineup();renderDrills();onScroll();
 }
 boot();
+
+/* ===================================================================
+   UX & Animation-Prinzipien (siehe app.css)
+   =================================================================== */
+(function(){
+  const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const PRESS='button,.btn,.nextchip,.tabbar a,.mcard,.pc';
+  // 1 + 5: Eindrücken und nachfedern
+  document.addEventListener('pointerup',e=>{const el=e.target.closest(PRESS);if(!el||RM||el.matches('.mcard,.pc'))return;
+    el.classList.remove('press-rel');void el.offsetWidth;el.classList.add('press-rel');setTimeout(()=>el.classList.remove('press-rel'),450)},{passive:true});
+  // 10: Welle an der Klickstelle
+  document.addEventListener('pointerdown',e=>{const el=e.target.closest('.seg button,.car-nav button,.btn,.tabbar a');if(!el||RM)return;
+    const r=el.getBoundingClientRect(),s=Math.max(r.width,r.height)*2.2,w=document.createElement('span');
+    w.className='ux-ripple';w.style.cssText=`width:${s}px;height:${s}px;left:${e.clientX-r.left-s/2}px;top:${e.clientY-r.top-s/2}px`;
+    el.appendChild(w);setTimeout(()=>w.remove(),520)},{passive:true});
+  // 2: Anlauf bei den Karussell-Pfeilen
+  $$('.car-nav button').forEach(b=>b.addEventListener('pointerdown',()=>{if(RM)return;b.style.setProperty('--dir',b.dataset.d||1);
+    b.classList.remove('wind');void b.offsetWidth;b.classList.add('wind')}));
+  // 7: Spieldetail kommt im Bogen
+  const md=$('#mdetail');if(md&&!RM)new MutationObserver(()=>{md.classList.remove('ux-arc');void md.offsetWidth;md.classList.add('ux-arc')}).observe(md,{childList:true});
+  // 18 Postel: tolerante Links (#Spiele, #spiel, #tabelle ...) führen trotzdem zum richtigen Bereich
+  const ALIAS={spiel:'spiele',match:'spiele',resultate:'spiele',tabelle:'spiele',termin:'termine',kalender:'termine',spieler:'kader',team:'team',aufstellungen:'aufstellung',lineup:'aufstellung',gegner:'gegner',trainings:'training'};
+  function fixHash(){const h=decodeURIComponent(location.hash.slice(1)).trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+    if(!h||document.getElementById(location.hash.slice(1)))return;const id=document.getElementById(h)?h:ALIAS[h];
+    const el=id&&document.getElementById(id);if(el){history.replaceState(null,'','#'+id);el.scrollIntoView({behavior:RM?'auto':'smooth'})}}
+  addEventListener('hashchange',fixHash);fixHash();
+  // 15 Hick + 19 Jakob + 20 Frequency of use: Tableiste unten (Handy)
+  const I={spiele:'<path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z"/><path d="M12 7l3.5 2.5-1.3 4h-4.4l-1.3-4z"/>',
+    termine:'<rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
+    aufstellung:'<rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M4 12h16"/><circle cx="12" cy="12" r="2.6"/>',
+    kader:'<circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19.5c.8-3.2 3-5 5.5-5s4.7 1.8 5.5 5"/><circle cx="17" cy="9.5" r="2.4"/><path d="M15.8 14.6c2.2.2 3.9 1.8 4.7 4.4"/>',
+    mehr:'<circle cx="5.5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="18.5" cy="12" r="1.3"/>'};
+  const TABS=[['spiele','Spiele'],['termine','Termine'],['aufstellung','Aufstellung'],['kader','Kader'],['mehr','Mehr']].filter(([k])=>k==='mehr'||document.getElementById(k));
+  const bar=document.createElement('nav');bar.className='tabbar';bar.setAttribute('aria-label','Schnellnavigation');
+  bar.innerHTML=TABS.map(([k,l])=>`<a href="${k==='mehr'?'#':'#'+k}" data-k="${k}"><svg viewBox="0 0 24 24" aria-hidden="true">${I[k]}</svg>${l}</a>`).join('');
+  document.body.appendChild(bar);
+  bar.addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return;
+    if(a.dataset.k==='mehr'){e.preventDefault();document.body.classList.toggle('menu-open')}else document.body.classList.remove('menu-open')});
+  const tio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)bar.querySelectorAll('a').forEach(a=>a.classList.toggle('on',a.dataset.k===e.target.id))}),{rootMargin:'-45% 0px -50% 0px'});
+  TABS.forEach(([k])=>{const s=document.getElementById(k);if(s)tio.observe(s)});
+  // ganz oben (Hero) ausblenden, damit die Startseite frei bleibt
+  const hero=$('#top');if(hero)new IntersectionObserver(([e])=>bar.classList.toggle('hide',e.intersectionRatio>.6),{threshold:[0,.6,1]}).observe(hero);
+})();

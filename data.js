@@ -2,7 +2,7 @@
 
 // current squad: name, nr, line, positions, role
 const SQUAD=[
- {n:'Baran Bakar',nr:1,l:'TOR',pos:'Tor',role:'Stammtorhüter, alle 10 Spiele gestartet'},
+ {n:'Baran Bakar',nr:1,l:'TOR',pos:'Tor',role:'Stammtorhüter, alle 11 Spiele gestartet'},
  {n:'Leo Ljekaj',nr:2,l:'ABW',pos:'IV rechts · RV',role:'Flexibel in der Viererkette'},
  {n:'Nizar Garrab',nr:4,l:'ABW',pos:'IV rechts/links',posExtra:'Mittelfeld',role:'Abwehrchef, Spielaufbau, mehrmals Captain'},
  {n:'Arvanit Dermaku',nr:6,l:'ABW',pos:'RV · IV rechts',role:'Technisch stark, erfahren, Captain gegen Oberdorf'},
@@ -84,7 +84,8 @@ const M=[
   L:[[1,'Baran Bakar','Tor'],[2,'Leo Ljekaj','RV'],[23,'Nizar Garrab','IVR'],[99,'Anastacio Antonio Cuenda','IVL'],[5,'Marko Michael Anello','LV'],[17,'Hüseyin Seker','DM',1],[7,"André D'alessandro Altamirano Alvarez",'MRI'],[10,'Deniz Yarasir','MLI'],[97,'Robert Faraone','FR'],[11,'Hüseyin Can Enhas','FL'],[9,'Murat Savut','ST']],
   B:['Arvanit Dermaku','Timot Horvat','Edson Samba Mango Baldé','Lamik Tesfay','Miran Kabakci','Maximo Angelo Anello','Agan Ibraimi'],A:[],
   E:[['7','t','g','Hüseyin Can Enhas','0:1'],['42','o','g','Burhan Azizi','1:1'],['47','t','g','Hüseyin Can Enhas','1:2'],['49','t','g','Nizar Garrab','1:3'],['61','o','g','Eren Yazicioglu','2:3'],['68','t','g','Miran Kabakci','2:4'],['70','o','g','Burhan Azizi','3:4'],['87','o','g','Aleksandar Jovic','4:4']],
-  note:'Auswärts beim Tabellenführer 4:2 geführt (68.), dann noch 2 Gegentore. Miran trifft als Einwechselspieler.'}
+  note:'Auswärts beim Tabellenführer 4:2 geführt (68.), dann noch 2 Gegentore. Miran trifft als Einwechselspieler.'},
+ {"id":11,"k":"T","d":"2026-11-14","t":"15:00","o":"FC Amicitia Riehen a","h":true,"s":[1,9],"ht":[1,3],"nr":"714828","pl":"Rankhof, Basel","E":[["12","o","g","Oliver Paisley","0:1"],["15","o","g","Oliver Paisley","0:2"],["24","o","g","Vadim Treyer","0:3"],["45+2","t","g","Robert Faraone","1:3"],["55","o","g","Paul Krawinkel","1:4"],["59","o","g","Aurélien Schaffner","1:5"],["76","o","g","Lorenzo D'Ambrosio","1:6"],["82","o","g","Henri Rabet","1:7"],["87","o","g","Lorenzo D'Ambrosio","1:8"],["89","o","g","Lorenzo D'Ambrosio","1:9"]],"L":[[1,"Baran Bakar","Tor",0],[2,"Leo Ljekaj","Verteidigung rechtsaussen",0],[23,"Nizar Garrab","Innenverteidigung rechts",0],[99,"Anastacio Antonio Cuenda","Innenverteidigung links",0],[5,"Marko Michael Anello","Verteidigung linksaussen",0],[17,"Hüseyin Seker","Mittelfeld defensiv",0],[77,"Edson Samba Mango Baldé","Mittelfeld rechtsaussen",0],[7,"André D'alessandro Altamirano Alvarez","Mittelfeld rechtsinnen",1],[10,"Deniz Yarasir","Mittelfeld linksinnen",0],[11,"Hüseyin Can Enhas","Flügel links",0],[97,"Robert Faraone","Mittelsturm",0]],"B":["Noé Achard","Alexander Vornicel","Timot Horvat","Lamik Tesfay","Maximo Angelo Anello"],"A":null,"coach":["Ali Baki","Salman Yarasir"],"oppCoach":["Daniel Bär"],"note":"Trainingsspiel gegen ein starkes Riehen. Zur Pause stand es 1:3, danach kamen 6 Gegentore, 4 davon ab der 76. Minute. Gründe: Konditionsprobleme und schlechtes Zusammenspiel. Robert trifft kurz vor der Pause."}
 ];
 const UP=[
  {d:'2026-11-14',t:'15:00',what:'Trainingsspiel',o:'FC Amicitia Riehen a',where:'Heimspiel (Spielnr. 714828)',tag:'blue'},
@@ -233,7 +234,7 @@ const TAK={
  </div>`,
  lessons:`<div class="grid g2">
   <div class="card"><h3>1 · Die letzten 30 Minuten</h3><p class="small">16 von 37 Gegentoren nach der 60. Minute. Gegen Kaiseraugst wurde aus 4:2 ein 4:4, gegen Möhlin aus 3:3 ein 3:6.</p><ul class="dots small" style="margin-top:8px"><li>Ab der 60. Minute frische Beine bringen</li><li>Mit Führung: 4-1-4-1, Ball halten, keine Risikopässe</li><li>Intervall-Spielformen im Training</li></ul></div>
-  <div class="card"><h3>2 · Wer da ist, gewinnt</h3><p class="small">0:7, 0:10 und 4:6 kamen mit 7–9 Abwesenden. Mit dem festen Kern: 5 Spiele ohne Niederlage.</p><ul class="dots small" style="margin-top:8px"><li>Früh zu- oder absagen</li><li>Rotationsspieler im Training auf ihre Positionen vorbereiten</li></ul></div>
+  <div class="card"><h3>2 · Wer da ist, gewinnt</h3><p class="small">0:7, 0:10 und 4:6 kamen mit 7–9 Abwesenden. Mit dem festen Kern: 5 Meisterschaftsspiele ohne Niederlage.</p><ul class="dots small" style="margin-top:8px"><li>Früh zu- oder absagen</li><li>Rotationsspieler im Training auf ihre Positionen vorbereiten</li></ul></div>
   <div class="card"><h3>3 · Strafraum-Disziplin</h3><p class="small">2 Penaltys gegen Rheinfelden und 2 Eigentore in der Saison. Ruhe im eigenen Strafraum, klar klären, keine Grätschen von hinten.</p></div>
   <div class="card"><h3>4 · Offensiv sind wir stark</h3><p class="small">37 Tore, verteilt auf 13 verschiedene Torschützen. Auch die Verteidiger treffen (Nizar, Arvanit, Marko, Anastacio, Edson). Das ist eine echte Stärke. Ohne Murat müssen die Tore noch breiter verteilt werden.</p></div>
  </div>`

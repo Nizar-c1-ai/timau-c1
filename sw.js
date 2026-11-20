@@ -1,4 +1,4 @@
-const CACHE='timau-v2';
+const CACHE='timau-v3';
 const FILES=['./','./index.html','./app.css','./app.js','./data.js','./live.json','./manifest.webmanifest','./img/logo.webp','./img/rankhof-stand.webp','./img/rankhof-river.webp','./img/rankhof-aerial.webp','./img/icon-192.png','./img/icon-512.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)));self.skipWaiting()});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))));self.clients.claim()});
