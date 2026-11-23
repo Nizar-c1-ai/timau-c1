@@ -92,7 +92,7 @@ const M=[
 const UP=[
  {d:'2026-11-14',t:'15:00',what:'Trainingsspiel',o:'FC Amicitia Riehen a',where:'Heimspiel (Spielnr. 714828)',tag:'blue'},
  {d:'2026-11-28',t:'15:00',what:'Trainingsspiel',o:'FC Telegraph BS 2',where:'Heimspiel (Spielnr. 714346)',tag:'blue'},
- {d:'2026-12-05',t:'',what:'Weihnachtsturnier · bestätigt, Zeit folgt',o:'FC Reinach BL',where:'Reinach BL',tag:'blue',keep:true}
+ {d:'2026-12-12',t:'',what:'Hallenturnier · bestätigt, Zeit folgt',o:'FC Reinach BL',where:'Reinach BL',tag:'blue',keep:true}
 ];
 // wiederkehrendes Training (wird automatisch als nächste Termine angezeigt)
 const TRAININGS=[
