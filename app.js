@@ -36,7 +36,7 @@ async function loadLive(){
     TABLE.splice(0,TABLE.length,...L.table);
     if(L.results&&L.results.length)GR.splice(0,GR.length,...L.results);
     const today=new Date().toISOString().slice(0,10);
-    const extra=UP.filter(u=>!u.official&&u.tag==='amber'&&u.d>=today);
+    const extra=UP.filter(u=>!u.official&&(u.tag==='amber'||u.keep)&&u.d>=today);
     UP.splice(0,UP.length,...(L.upcoming||[]),...extra);UP.sort((a,b)=>(a.d+a.t).localeCompare(b.d+b.t));
     // new opponents get an automatic profile
     TABLE.forEach((t,i)=>{if(isTimauName(t[0])||OPP[t[0]])return;const rank=i+1;
